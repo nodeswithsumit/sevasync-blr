@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "description": "Deterministic sandbox extraction cases for SevaSync BLR demo playback",
+    "version": "2.0.0",
+    "cases": ["ekhata_mismatch", "gruha_jyothi_tenant", "sakala_sla_breach"],
+    "notes": "All cases contain intentional civic bugs that the 4-agent pipeline must catch. Field values are anonymized but structurally authentic."
+  },
+  "cases": {
+    "ekhata_mismatch": {
+      "_demo_scenario": "Classic e-Khata mutation rejection — applicant used initials 'R. Kumar' on form but full name 'Ramesh Kumar S' appears on the Sale Deed. Additionally, the ward claimed (BTM Layout) does not match the actual ward for PIN 560048, and the built-up area on the application (1,150 sqft) differs from BBMP-assessed area (1,320 sqft) — a 14.8% variance exceeding the 5% threshold.",
+      "voice_transcript_en": "My e-Khata mutation application got rejected again. I purchased a property in BTM Layout last year. My name on the application form is R. Kumar but the sale deed shows Ramesh Kumar S. The property PID is SAS-BLR-560048-78923. The built-up area I mentioned is 1150 square feet but BBMP records show 1320. What do I need to fix?",
+      "voice_transcript_kanglish": "Nanna e-Khata application reject aagide. BTM Layout alli property tagondeeni. Application form alli R. Kumar antha baredidhini, aadre sale deed alli Ramesh Kumar S antha ide. PID number SAS-BLR-560048-78923. Built-up area 1150 sqft haakiddini, BBMP records alli 1320 sqft ide. Yen fix maadabeku?",
+      "document_type": "BBMP e-Khata Extract / SAS Property Tax Receipt",
+      "extracted_fields": {
+        "applicant_name": "R. Kumar",
+        "doc_owner_name": "Ramesh Kumar S",
+        "account_or_pid": "SAS-BLR-560048-78923",
+        "pincode": "560048",
+        "ward_claimed": "Koramangala",
+        "built_up_area_sqft": 1150,
+        "monthly_units": null,
+        "application_date": null
+      },
+      "visual_flags": [
+        {
+          "severity": "high",
+          "issue": "Applicant name 'R. Kumar' on application does not match property owner name 'Ramesh Kumar S' on e-Khata extract — initial abbreviation mismatch detected. This will cause automatic rejection by BBMP Revenue system."
+        },
+        {
+          "severity": "high",
+          "issue": "Ward claimed on application (Koramangala) does not match pincode 560048 which maps to BTM Layout (ARO Bommanahalli). ARO routing will fail, causing application to be returned unprocessed."
+        },
+        {
+          "severity": "high",
+          "issue": "Built-up area declared on application (1,150 sqft) differs from BBMP-assessed area (1,320 sqft) by 170 sqft (12.9%) — exceeds the 5% variance threshold. Auto-rejection by GBA system likely."
+        }
+      ],
+      "confidence": 0.91,
+      "engine": "deterministic_ocr_fallback",
+      "expected_discrepancies": [
+        "NAME_MISMATCH_INITIAL — critical",
+        "WARD_ZONE_MISMATCH — critical",
+        "BUILT_UP_AREA_DELTA — critical"
+      ],
+      "expected_readiness_score_range": [0, 40]
+    },
+    "gruha_jyothi_tenant": {
+      "_demo_scenario": "Gruha Jyothi tenant case — three simultaneous violations: (1) monthly consumption 253 units exceeds 200-unit ceiling, (2) RR Number 'KA2BLR0056ABC' is alpha-numeric instead of pure 10-digit numeric, (3) applicant 'Suresh Babu' differs from bill account holder 'Priya Suresh' — tenant applying on owner's connection without required lease and consent documents.",
+      "voice_transcript_en": "I want to apply for Gruha Jyothi electricity subsidy. I live in HSR Layout, PIN 560047. My BESCOM bill number is KA2BLR0056ABC. This month my consumption was 253 units. The electricity meter is in my landlord's name Priya Suresh but I am Suresh Babu. Can I still apply?",
+      "voice_transcript_kanglish": "Gruha Jyothi scheme ge apply maadabeku. HSR Layout alli idhini, PIN 560047. Nanna BESCOM bill number KA2BLR0056ABC. This month 253 units aagide. Meter nanna landlord Priya Suresh hesar alli ide. Nanu Suresh Babu. Apply maadabahuda?",
+      "document_type": "BESCOM Electricity Bill (Consumer Copy)",
+      "extracted_fields": {
+        "applicant_name": "Suresh Babu",
+        "doc_owner_name": "Priya Suresh",
+        "account_or_pid": "KA2BLR0056ABC",
+        "pincode": "560047",
+        "ward_claimed": "HSR Layout",
+        "built_up_area_sqft": null,
+        "monthly_units": 253,
+        "application_date": null
+      },
+      "visual_flags": [
+        {
+          "severity": "high",
+          "issue": "Monthly consumption 253 units exceeds Gruha Jyothi scheme ceiling of 200 units. Applicant is ineligible for subsidy in this billing cycle under G.O. DE 48 EEB 2023 Clause 4(ii)."
+        },
+        {
+          "severity": "high",
+          "issue": "BESCOM RR Number 'KA2BLR0056ABC' contains alphabetic characters. Gruha Jyothi DBT linkage requires purely numeric 10-digit BESCOM Account Number. This legacy format must be converted before registration."
+        },
+        {
+          "severity": "medium",
+          "issue": "Applicant name 'Suresh Babu' differs from BESCOM bill account holder 'Priya Suresh'. Tenant applying on owner's connection — Registered Rental Agreement + Owner Consent Letter mandatory under scheme Clause 6(c)."
+        }
+      ],
+      "confidence": 0.88,
+      "engine": "deterministic_ocr_fallback",
+      "expected_discrepancies": [
+        "UNITS_EXCEEDS_200 — critical",
+        "ALPHANUMERIC_RR_NUMBER — critical",
+        "TENANT_OWNERSHIP_DECLARATION — warning"
+      ],
+      "expected_readiness_score_range": [20, 50]
+    },
+    "sakala_sla_breach": {
+      "_demo_scenario": "Sakala SLA breach — Kavitha Reddy filed a BBMP e-Khata service request on 2026-04-01 from Whitefield (PIN 560066). As of demo date, 60+ working days have elapsed against the 15-day SLA. No disposal, no rejection, no communication — classic Sakala default. Escalation to First Appellate Authority (ARO Mahadevapura — Whitefield) is now mandatory.",
+      "voice_transcript_en": "I filed my e-Khata application on April 1st 2026 at BBMP Whitefield office. My Sakala GSC ID is GSC2026BLR001234. The SLA is 15 working days but it has been more than 60 days now and I haven't received any response. What action can I take against BBMP?",
+      "voice_transcript_kanglish": "April 1 2026 alli BBMP Whitefield office alli e-Khata application haakiddini. Nanna Sakala GSC ID GSC2026BLR001234. SLA 15 working days aadre ippaga 60+ days aagide, enu response bandilla. BBMP mele enu action tegobahudu?",
+      "document_type": "Sakala Service Request Acknowledgement",
+      "extracted_fields": {
+        "applicant_name": "Kavitha Reddy",
+        "doc_owner_name": "Kavitha Reddy",
+        "account_or_pid": "GSC2026BLR001234",
+        "pincode": "560066",
+        "ward_claimed": "Whitefield",
+        "built_up_area_sqft": null,
+        "monthly_units": null,
+        "application_date": "2026-04-01"
+      },
+      "visual_flags": [
+        {
+          "severity": "high",
+          "issue": "Sakala GSC application GSC2026BLR001234 dated 2026-04-01 has exceeded the statutory SLA of 15 working days under Karnataka Sakala Act 2011. Escalation to First Appellate Authority (ARO Mahadevapura — Whitefield) is now mandatory."
+        },
+        {
+          "severity": "medium",
+          "issue": "No disposal order, approval, or rejection memo found. Department has neither approved nor rejected within prescribed Sakala timeline — constitutes a deemed default under Section 6(2) of the Act."
+        }
+      ],
+      "confidence": 0.95,
+      "engine": "deterministic_ocr_fallback",
+      "expected_discrepancies": [
+        "SAKALA_SLA_ELAPSED — warning (upgraded to critical in context)"
+      ],
+      "expected_readiness_score_range": [60, 85]
+    }
+  }
+}

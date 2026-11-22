@@ -1,0 +1,98 @@
+{
+  "id": "e_swathu",
+  "name": "Karnataka e-Swathu 2.0 — Form 9 / Form 11A Rural-Urban Fringe Property Verification",
+  "department": "Revenue Department, GoK / Panchayat Raj & Rural Development",
+  "sakala_sla_days": 30,
+  "version": "2.0.0",
+  "effective_date": "2024-01-01",
+  "governing_act": "Karnataka Land Revenue Act 1964, Section 128 & Karnataka Panchayat Raj Act 1993, Section 213; e-Swathu Scheme Circular RD 42 MNS 2015 dated 14-Apr-2015",
+  "keywords": [
+    "e-swathu", "eswathu", "swathu", "form 9", "form 11a", "form11a",
+    "rural property", "gram panchayat", "gp property", "village property",
+    "conversion site", "agricultural land conversion", "urban fringe",
+    "panchayat khata", "panchayat property", "village sites",
+    "revenue site", "rb site", "rb layout",
+    "gram thana", "gramthana", "layout conversion",
+    "bbmp fringe", "bda fringe", "cmc", "tmc",
+    "ಇ-ಸ್ವತ್ತು", "ಫಾರ್ಮ್ 9", "ಗ್ರಾಮ ಪಂಚಾಯತ್", "ರಾಜಸ್ವ ಭೂಮಿ",
+    "panchayat tax", "swathu certificate", "property conversion",
+    "layout approval panchayat", "gram panchayat khata transfer"
+  ],
+  "required_documents": [
+    "e-Swathu Form 9 Property Extract (from State Data Centre portal, not older than 3 months)",
+    "e-Swathu Form 11A Mutation Registered Copy (if transfer has occurred)",
+    "Encumbrance Certificate (EC) from Sub-Registrar Office (minimum 13 years)",
+    "Registered Sale Deed or Gift Deed or Will (as applicable)",
+    "RTC (Record of Rights, Tenancy and Crops) Extract from pahani portal",
+    "Mutation Record (MR) copy from Taluk Office",
+    "Aadhaar card (applicant)",
+    "Survey Sketch / Village Map showing property boundaries",
+    "No-Dues Certificate from Gram Panchayat",
+    "BDA/BBMP conversion order (if site is in urban fringe or converted layout)"
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "FORM9_OWNER_NAME_MATCH",
+      "field": "applicant_name",
+      "check": "fuzzy_name_match",
+      "threshold": 0.75,
+      "severity": "critical",
+      "message": "Applicant name on the application does not match the owner name in e-Swathu Form 9 Property Extract. Rural property records frequently have Kannada transliteration variations (e.g., 'Ramesh' vs 'Ramesh S/o Narayana' vs 'Ramesha').",
+      "remediation": "1. Obtain a fresh Form 9 extract from the e-Swathu portal. 2. File a Mutation application (MR) at the concerned Taluk Office to correct the owner name. 3. If surname/father's name mismatch, submit a sworn affidavit on Rs. 100 stamp paper attested by a Tahsildar or First Class Magistrate.",
+      "reference": "Karnataka Land Revenue Manual, Chapter XII, Rule 148"
+    },
+    {
+      "rule_id": "FORM11A_PRESENT",
+      "field": "account_or_pid",
+      "check": "not_empty",
+      "severity": "critical",
+      "message": "e-Swathu Form 11A Mutation Reference Number is missing. For rural-to-urban fringe property transfers, Form 11A mutation is mandatory before BBMP e-Khata issuance.",
+      "remediation": "Apply for Form 11A mutation at the Gram Panchayat office (GP) where the property is located. After GP approval, the mutation number is auto-synced to the State Data Centre e-Swathu portal within 7 days.",
+      "reference": "e-Swathu Circular RD 42 MNS 2015, Para 6.3"
+    },
+    {
+      "rule_id": "SURVEY_NUMBER_PRESENT",
+      "field": "account_or_pid",
+      "check": "survey_number_format",
+      "pattern": "^[0-9]{1,4}(/[0-9]{1,4})?([A-Z])?$",
+      "severity": "warning",
+      "message": "Survey number format appears invalid or incomplete. e-Swathu portal requires the full survey number in the format '123/4A' or '123/4' as listed in the RTC extract.",
+      "remediation": "Verify the survey number from the RTC (Pahani) extract on landrecords.kar.nic.in. Ensure the survey number includes sub-division number if applicable.",
+      "reference": "Karnataka Survey and Settlement Act 1991, Section 9"
+    },
+    {
+      "rule_id": "WARD_ZONE_MISMATCH",
+      "field": "ward_claimed",
+      "check": "ward_matches_pincode",
+      "severity": "warning",
+      "message": "Ward/Zone claimed on the application does not match the pincode-mapped administrative boundary. For rural-urban fringe properties, the jurisdiction may have shifted from Gram Panchayat to BBMP/CMC.",
+      "remediation": "Check the latest jurisdiction notification from the BBMP/CMC boundary extension circular. If the property is now within BBMP limits, e-Swathu form must be supplemented with BBMP conversion acknowledgement.",
+      "reference": "BBMP Restructuring Notification Gazette No. UDD/26/MNJ/2007 dated 16-Jan-2007"
+    },
+    {
+      "rule_id": "SAKALA_SLA_ELAPSED",
+      "field": "application_date",
+      "check": "sla_not_elapsed",
+      "sla_days": 30,
+      "severity": "warning",
+      "message": "e-Swathu Form 11A mutation application has exceeded the 30-day Sakala SLA. Gram Panchayat is in default.",
+      "remediation": "File a Sakala SLA Breach Complaint at sakala.kar.nic.in. The Taluk Panchayat Executive Officer (EO) is the First Appellate Authority for GP service delays.",
+      "reference": "Karnataka Sakala Services Act 2011 — Schedule I, GP Services"
+    }
+  ],
+  "bilingual_draft_templates": {
+    "mutation_application": {
+      "document_title": "e-Swathu Form 11A Mutation Application — Gram Panchayat",
+      "english": "To,\nThe Panchayat Development Officer (PDO),\nGram Panchayat: [GP_NAME],\nHobli: [HOBLI_NAME], Taluk: [TALUK_NAME],\nDistrict: Bengaluru [RURAL/URBAN]\n\nDate: [DATE]\n\nSub: Application for e-Swathu Form 11A Mutation — Survey No. [SURVEY_NUMBER], [VILLAGE_NAME] Village\n\nRespected PDO,\n\nI, [APPLICANT_NAME], son/daughter of [FATHER_NAME], Aadhaar No. [AADHAAR_LAST4XXXX], residing at [ADDRESS], Bengaluru — [PINCODE], hereby apply for mutation of property in e-Swathu records.\n\nProperty Details:\n- Survey No.: [SURVEY_NUMBER]\n- Village: [VILLAGE_NAME]\n- Area: [AREA] Acres / Guntas\n- Basis of Transfer: [Sale Deed / Inheritance / Gift Deed]\n- Deed Registration No.: [REG_NUMBER] dated [REG_DATE] at SR Office, [SR_OFFICE]\n\nI request you to update the e-Swathu Form 9 / Form 11A records to reflect the ownership transfer at the earliest, within the prescribed Sakala SLA of 30 working days.\n\nYours faithfully,\n[APPLICANT_SIGNATURE]\n[APPLICANT_NAME]\nMobile: [MOBILE_NUMBER]",
+      "kannada": "ಸೇವೆಯಲ್ಲಿ,\nಪಂಚಾಯತ್ ಅಭಿವೃದ್ಧಿ ಅಧಿಕಾರಿ (PDO),\nಗ್ರಾಮ ಪಂಚಾಯತ್: [GP_ಹೆಸರು],\nಹೋಬಳಿ: [ಹೋಬಳಿ_ಹೆಸರು], ತಾಲ್ಲೂಕು: [ತಾಲ್ಲೂಕು_ಹೆಸರು]\n\nದಿನಾಂಕ: [ದಿನಾಂಕ]\n\nವಿಷಯ: ಸರ್ವೆ ನಂ. [ಸರ್ವೆ_ಸಂಖ್ಯೆ], [ಗ್ರಾಮ_ಹೆಸರು] ಗ್ರಾಮದ ಇ-ಸ್ವತ್ತು ಫಾರ್ಮ್ 11A ಮ್ಯುಟೇಷನ್ ಅರ್ಜಿ\n\nಮಾನ್ಯ PDO ಅವರೇ,\n\nನಾನು, [ಅರ್ಜಿದಾರರ_ಹೆಸರು], ಆಧಾರ್ ಸಂ. [ಆಧಾರ್_XXXX], ಸ್ವತ್ತಿನ ವಿವರ:\n- ಸರ್ವೆ ಸಂಖ್ಯೆ: [ಸರ್ವೆ_ಸಂಖ್ಯೆ]\n- ಗ್ರಾಮ: [ಗ್ರಾಮ_ಹೆಸರು]\n- ವಿಸ್ತೀರ್ಣ: [ವಿಸ್ತೀರ್ಣ] ಎಕರೆ / ಗುಂಟೆ\n- ವರ್ಗಾವಣೆ ಆಧಾರ: [ಮಾರಾಟ ಪತ್ರ / ಉಯಿಲು / ದಾನ ಪತ್ರ]\n\nನಿಗದಿತ ಸಕಾಲ SLA 30 ಕಾರ್ಯದಿನಗಳಲ್ಲಿ ಇ-ಸ್ವತ್ತು ದಾಖಲೆಗಳನ್ನು ನವೀಕರಿಸಲು ಕೋರುತ್ತೇನೆ.\n\nವಿಧೇಯ,\n[ಅರ್ಜಿದಾರರ_ಸಹಿ]\n[ಅರ್ಜಿದಾರರ_ಹೆಸರು]"
+    }
+  },
+  "sandbox_api_setu_endpoint": "https://sandbox.apisetu.gov.in/revenue/v2/eswathu/mutations",
+  "fee_structure": {
+    "mutation_fee": 300,
+    "form9_extract_fee": 50,
+    "form11a_certified_copy_fee": 100,
+    "currency": "INR"
+  },
+  "_demo_note": "This policy pack is designed to be HOT-LOADED during the IBM Bobathon demo via POST /api/policies/register to demonstrate zero-code Civic-as-Code scalability. Load via the 'Plug-in New Service' button in the SevaSync BLR UI."
+}

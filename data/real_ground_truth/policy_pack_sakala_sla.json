@@ -1,0 +1,105 @@
+{
+  "id": "sakala",
+  "name": "Karnataka Sakala Act — SLA Breach Escalation & Appeal Filing",
+  "department": "Department of Personnel & Administrative Reforms (DPAR), GoK",
+  "sakala_sla_days": 7,
+  "version": "3.0.0",
+  "effective_date": "2026-10-01",
+  "governing_act": "Karnataka Sakala Services Act 2011 (Amended Oct 2026), G.O. DPAR 56 SAK 2026 dated 01-Oct-2026",
+  "keywords": [
+    "sakala", "sakala sla", "sla breach", "gsc id", "gsc number",
+    "sakala complaint", "sakala appeal", "service delay", "government delay",
+    "no response", "pending application", "escalation", "appeal",
+    "first appellate", "second appellate", "deputy commissioner",
+    "nada kacheri", "aro", "ro", "revenue officer",
+    "time bound service", "rtps", "public service guarantee",
+    "ಸಕಾಲ", "ಸಕಾಲ ಉಲ್ಲಂಘನೆ", "ಮೇಲ್ಮನವಿ", "ಸೇವೆ ವಿಳಂಬ",
+    "government service complaint", "bbmp delay", "bescom delay",
+    "sla expired", "overdue application", "disposal pending"
+  ],
+  "required_documents": [
+    "Original Sakala GSC Acknowledgement slip (GSC ID mandatory)",
+    "Proof of original application submission (application copy or screenshot)",
+    "Aadhaar card of applicant",
+    "Details of the original service requested (department, service type, application date)",
+    "Any communication received from the department (or statement that none was received)",
+    "Mobile number registered with Sakala portal"
+  ],
+  "appeal_ladder": [
+    {
+      "level": 1,
+      "authority": "First Appellate Authority (FAA)",
+      "role": "Assessment & Revenue Officer (ARO) for BBMP; Sub-Division Engineer for BESCOM",
+      "trigger_days_after_sla": 1,
+      "disposal_days": 7,
+      "escalation_fee": 0,
+      "escalation_portal": "sakala.kar.nic.in",
+      "notes": "File within 30 days of SLA breach. If FAA also fails to dispose in 7 days, escalate to SAA."
+    },
+    {
+      "level": 2,
+      "authority": "Second Appellate Authority (SAA)",
+      "role": "Revenue Officer (RO) / Joint Commissioner BBMP",
+      "trigger_days_after_faa_sla": 1,
+      "disposal_days": 14,
+      "escalation_fee": 0,
+      "escalation_portal": "sakala.kar.nic.in",
+      "notes": "File within 30 days of FAA SLA breach. SAA can impose Rs. 500/day penalty on the defaulting officer."
+    },
+    {
+      "level": 3,
+      "authority": "Competent Authority (CA)",
+      "role": "Deputy Commissioner (DC) of concerned Revenue Division",
+      "trigger_days_after_saa_sla": 1,
+      "disposal_days": 30,
+      "escalation_fee": 0,
+      "escalation_portal": "sakala.kar.nic.in or personal hearing at DC office",
+      "notes": "File within 60 days of SAA SLA breach. DC can direct compensation payment to citizen from officer's salary."
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "SAKALA_SLA_ELAPSED",
+      "field": "application_date",
+      "check": "sla_not_elapsed",
+      "sla_days": 7,
+      "severity": "critical",
+      "message": "Sakala-notified service application (GSC ID: {gsc_id}) filed on {application_date} has exceeded the statutory SLA of {sla_days} working days as per Karnataka Sakala Act (Oct 2026 amendment). The department is in default. Citizen has an immediate right to escalate.",
+      "remediation": "1. Immediately file a Sakala FAA appeal at sakala.kar.nic.in (free, online). 2. SMS 'SAKALA <GSC_ID> STATUS' to 51969 to get current status. 3. If online filing is not possible, visit the nearest Nada Kacheri/Taluk Office with the GSC acknowledgement. 4. Cite G.O. DPAR 56 SAK 2026 for Oct 2026 enhanced penalty provisions.",
+      "reference": "Karnataka Sakala Services Act 2011, Section 8(1) & Oct 2026 Amendment"
+    },
+    {
+      "rule_id": "MISSING_GSC_ID",
+      "field": "account_or_pid",
+      "check": "gsc_id_format",
+      "pattern": "^GSC\\d{4}[A-Z]{2,5}\\d{6,}$",
+      "severity": "critical",
+      "message": "No valid Sakala GSC ID found. A GSC acknowledgement number is mandatory to file an SLA breach appeal. Without this, the system cannot trace the original application.",
+      "remediation": "1. Check your SMS inbox for the Sakala GSC acknowledgement sent when the application was submitted. 2. Log in to sakala.kar.nic.in with your mobile number to retrieve the GSC ID. 3. If the GSC ID was never issued, contact the department directly — they may have failed to register the application in the Sakala system (which is itself a violation).",
+      "reference": "Karnataka Sakala Rules 2012, Rule 4(2)"
+    },
+    {
+      "rule_id": "WARD_MISMATCH_ROUTING",
+      "field": "ward_claimed",
+      "check": "ward_matches_pincode",
+      "severity": "warning",
+      "message": "Ward claimed on the escalation application does not match the pincode-mapped ward. Incorrect ward routing will direct the appeal to the wrong ARO/FAA office, causing further delay.",
+      "remediation": "Verify the correct ward from BBMP Citizen Portal or by entering your property pincode. Use the correct ARO office contact from the ward-zone mapping before filing the appeal.",
+      "reference": "BBMP Revenue Manual, Chapter 7"
+    }
+  ],
+  "bilingual_draft_templates": {
+    "sla_breach_escalation": {
+      "document_title": "Sakala SLA Breach Escalation — First Appellate Authority",
+      "english": "To,\nThe First Appellate Authority (FAA),\n[ARO_OFFICE_NAME],\nBBMP / [DEPARTMENT_NAME],\n[WARD_NAME] Ward, [GBA_ZONE] Zone,\nBengaluru — [PINCODE]\n\nDate: [DATE]\n\nSub: Sakala SLA Breach Appeal — GSC ID: [GSC_ID] — Service: [SERVICE_NAME]\n\nRespected Authority,\n\nI, [APPLICANT_NAME], Aadhaar No. [AADHAAR_LAST4XXXX], residing at [ADDRESS], Bengaluru — [PINCODE], hereby file this formal appeal under Section 8 of the Karnataka Sakala Services Act 2011 (as amended by G.O. DPAR 56 SAK 2026, effective 01-Oct-2026).\n\nFACTS:\n1. I submitted an application for '[SERVICE_NAME]' on [APPLICATION_DATE] through the [SUBMISSION_MODE] with Sakala GSC Acknowledgement No. [GSC_ID].\n2. The prescribed Sakala SLA for this service is [SLA_DAYS] working days.\n3. As of today ([CURRENT_DATE]), [DAYS_ELAPSED] working days have elapsed since submission — exceeding the statutory SLA by [DAYS_OVERDUE] days.\n4. I have received NO disposal order, rejection notice, or communication from the concerned department.\n\nRELIEF SOUGHT:\n1. Immediate disposal of the original application (GSC ID: [GSC_ID]) within 7 working days.\n2. Compensation as provided under the Oct 2026 Sakala Amendment (Rs. [PENALTY_AMOUNT]/day for [DAYS_OVERDUE] days delay = Rs. [TOTAL_PENALTY]).\n3. Action against the defaulting official under Sakala Act Section 10.\n\nEnclosures:\n1. Copy of original Sakala GSC Acknowledgement\n2. Aadhaar Card (self-attested)\n3. Original application copy (if available)\n\nYours faithfully,\n[APPLICANT_SIGNATURE]\n[APPLICANT_NAME]\nMobile: [MOBILE_NUMBER]\nDate: [DATE]",
+      "kannada": "ಸೇವೆಯಲ್ಲಿ,\nಮೊದಲ ಮೇಲ್ಮನವಿ ಪ್ರಾಧಿಕಾರ (FAA),\n[ARO_ಕಚೇರಿ_ಹೆಸರು],\nBBMP / [ಇಲಾಖೆ_ಹೆಸರು],\n[ವಾರ್ಡ್_ಹೆಸರು] ವಾರ್ಡ್, [GBA_ಜೋನ್] ಜೋನ್,\nಬೆಂಗಳೂರು — [ಪಿನ್_ಕೋಡ್]\n\nದಿನಾಂಕ: [ದಿನಾಂಕ]\n\nವಿಷಯ: ಸಕಾಲ SLA ಉಲ್ಲಂಘನೆ ಮೇಲ್ಮನವಿ — GSC ID: [GSC_ID] — ಸೇವೆ: [ಸೇವೆ_ಹೆಸರು]\n\nಮಾನ್ಯ ಪ್ರಾಧಿಕಾರವೇ,\n\nನಾನು, [ಅರ್ಜಿದಾರರ_ಹೆಸರು], ಆಧಾರ್ ಸಂ. [ಆಧಾರ್_XXXX], [ವಿಳಾಸ], ಬೆಂಗಳೂರು — [ಪಿನ್_ಕೋಡ್], ಕರ್ನಾಟಕ ಸಕಾಲ ಸೇವಾ ಕಾಯಿದೆ 2011 ರ ಸೆಕ್ಷನ್ 8 ಅಡಿ (ಜಿ.ಒ. DPAR 56 SAK 2026 ಮೂಲಕ ತಿದ್ದುಪಡಿ, ದಿ. 01-ಅಕ್ಟೋಬರ್-2026) ಈ ಔಪಚಾರಿಕ ಮೇಲ್ಮನವಿ ಸಲ್ಲಿಸುತ್ತಿದ್ದೇನೆ.\n\nವಿವರ:\n೧. ನಾನು '[ಸೇವೆ_ಹೆಸರು]'ಗೆ [ಅರ್ಜಿ_ದಿನಾಂಕ] ರಂದು ಸಕಾಲ GSC ಅಂಗೀಕೃತಿ ಸಂ. [GSC_ID] ಮೂಲಕ ಅರ್ಜಿ ಸಲ್ಲಿಸಿದ್ದೇನೆ.\n೨. ಈ ಸೇವೆಗೆ ನಿಗದಿತ ಸಕಾಲ SLA [SLA_DAYS] ಕಾರ್ಯದಿನಗಳು.\n೩. ಇಂದಿನ ವರೆಗೆ [DAYS_ELAPSED] ಕಾರ್ಯದಿನಗಳು ಕಳೆದಿದ್ದು, ಅಂದರೆ [DAYS_OVERDUE] ದಿನಗಳ ವಿಳಂಬವಾಗಿದೆ.\n\nಕೋರಿಕೆ:\n೧. ಮೂಲ ಅರ್ಜಿ (GSC ID: [GSC_ID]) ೭ ಕಾರ್ಯದಿನಗಳಲ್ಲಿ ವಿಲೇವಾರಿ ಮಾಡಬೇಕು.\n೨. ಅಕ್ಟೋಬರ್ 2026 ತಿದ್ದುಪಡಿ ಅಡಿ ಪರಿಹಾರ: ₹[ಒಟ್ಟು_ದಂಡ] ([DAYS_OVERDUE] ದಿನ × ₹[ದಂಡ_ಮೊತ್ತ]/ದಿನ).\n\nಲಗತ್ತಿಸಿದ ದಾಖಲೆ:\n೧. ಮೂಲ ಸಕಾಲ GSC ಅಂಗೀಕೃತಿ ಪ್ರತಿ\n೨. ಆಧಾರ್ ಕಾರ್ಡ್\n\nವಿಧೇಯ,\n[ಅರ್ಜಿದಾರರ_ಸಹಿ]\n[ಅರ್ಜಿದಾರರ_ಹೆಸರು]"
+    }
+  },
+  "sandbox_api_setu_endpoint": "https://sandbox.apisetu.gov.in/sakala/v3/appeals/file",
+  "penalty_structure": {
+    "per_day_delay": 500,
+    "max_penalty": 10000,
+    "currency": "INR",
+    "note": "Oct 2026 amendment: penalty deducted from defaulting officer's salary and paid to citizen."
+  }
+}

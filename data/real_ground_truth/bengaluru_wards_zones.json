@@ -1,0 +1,240 @@
+{
+  "metadata": {
+    "source": "BBMP Ward Boundaries & GBA Zones (2024-25) — Karnataka Municipal Data",
+    "total_wards_in_bbmp": 243,
+    "zones_in_gba": ["East", "West", "South", "North", "Central", "Bommanahalli", "Dasarahalli", "Mahadevapura", "RR Nagar", "Yelahanka"],
+    "last_updated": "2024-10-01",
+    "notes": "ARO = Assessment & Revenue Officer. GBA = Greater Bengaluru Authority. Pincodes reflect primary postal delivery office for the ward."
+  },
+  "pincode_to_ward": {
+    "560001": {
+      "locality": "Bangalore GPO / Cubbon Park",
+      "matched_ward": "Shivajinagar",
+      "ward_number": 76,
+      "gba_zone": "Central",
+      "aro_office": "ARO Central — MG Road",
+      "assembly_constituency": "Shivajinagar",
+      "post_offices": ["Bangalore GPO", "Cubbon Park SO", "Shivajinagar SO"]
+    },
+    "560003": {
+      "locality": "Seshadripuram",
+      "matched_ward": "Seshadripuram",
+      "ward_number": 68,
+      "gba_zone": "Central",
+      "aro_office": "ARO Central — Rajajinagar",
+      "assembly_constituency": "Rajajinagar",
+      "post_offices": ["Seshadripuram SO"]
+    },
+    "560004": {
+      "locality": "Basavanagudi",
+      "matched_ward": "Basavanagudi",
+      "ward_number": 160,
+      "gba_zone": "South",
+      "aro_office": "ARO South — Jayanagar",
+      "assembly_constituency": "Basavanagudi",
+      "post_offices": ["Basavanagudi SO", "Gandhi Bazaar SO"]
+    },
+    "560010": {
+      "locality": "Rajajinagar",
+      "matched_ward": "Rajajinagar",
+      "ward_number": 51,
+      "gba_zone": "West",
+      "aro_office": "ARO West — Rajajinagar",
+      "assembly_constituency": "Rajajinagar",
+      "post_offices": ["Rajajinagar SO", "1st Block Rajajinagar SO"]
+    },
+    "560011": {
+      "locality": "Malleshwaram",
+      "matched_ward": "Malleshwaram",
+      "ward_number": 64,
+      "gba_zone": "Central",
+      "aro_office": "ARO Central — Malleshwaram",
+      "assembly_constituency": "Malleshwaram",
+      "post_offices": ["Malleshwaram SO", "18th Cross Malleshwaram SO"]
+    },
+    "560017": {
+      "locality": "Vijayanagar",
+      "matched_ward": "Vijayanagar",
+      "ward_number": 42,
+      "gba_zone": "West",
+      "aro_office": "ARO West — Rajajinagar",
+      "assembly_constituency": "Chamrajpet",
+      "post_offices": ["Vijayanagar SO", "BSK 1st Stage SO"]
+    },
+    "560020": {
+      "locality": "Jayanagar",
+      "matched_ward": "Jayanagar",
+      "ward_number": 169,
+      "gba_zone": "South",
+      "aro_office": "ARO South — Jayanagar",
+      "assembly_constituency": "Jayanagar",
+      "post_offices": ["Jayanagar SO", "4th Block Jayanagar SO"]
+    },
+    "560024": {
+      "locality": "RT Nagar",
+      "matched_ward": "RT Nagar",
+      "ward_number": 15,
+      "gba_zone": "North",
+      "aro_office": "ARO North — Hebbal",
+      "assembly_constituency": "Hebbal",
+      "post_offices": ["RT Nagar SO", "Dollars Colony SO"]
+    },
+    "560025": {
+      "locality": "Indiranagar",
+      "matched_ward": "Indiranagar",
+      "ward_number": 83,
+      "gba_zone": "East",
+      "aro_office": "ARO East — Indiranagar",
+      "assembly_constituency": "Pulakeshinagar",
+      "post_offices": ["Indiranagar SO", "Defense Colony SO", "HAL 2nd Stage SO"]
+    },
+    "560032": {
+      "locality": "Hebbal / Nagawara",
+      "matched_ward": "Hebbal",
+      "ward_number": 7,
+      "gba_zone": "North",
+      "aro_office": "ARO North — Hebbal",
+      "assembly_constituency": "Hebbal",
+      "post_offices": ["Hebbal SO", "Nagawara SO", "Manyata Tech Park SO"]
+    },
+    "560034": {
+      "locality": "Koramangala",
+      "matched_ward": "Koramangala",
+      "ward_number": 151,
+      "gba_zone": "Bommanahalli",
+      "aro_office": "ARO Bommanahalli — Koramangala",
+      "assembly_constituency": "Jayanagar",
+      "post_offices": ["Koramangala SO", "ST Bed Layout SO", "Koramangala Indl Estate SO"]
+    },
+    "560038": {
+      "locality": "Frazer Town / Pulakeshinagar",
+      "matched_ward": "Frazer Town",
+      "ward_number": 78,
+      "gba_zone": "East",
+      "aro_office": "ARO East — Indiranagar",
+      "assembly_constituency": "Pulakeshinagar",
+      "post_offices": ["Frazer Town SO", "Commercial Street SO", "Cox Town SO"]
+    },
+    "560047": {
+      "locality": "HSR Layout",
+      "matched_ward": "HSR Layout",
+      "ward_number": 178,
+      "gba_zone": "Bommanahalli",
+      "aro_office": "ARO Bommanahalli — HSR Layout",
+      "assembly_constituency": "Bommanahalli",
+      "post_offices": ["HSR Layout SO", "Sector 2 HSR SO"]
+    },
+    "560048": {
+      "locality": "BTM Layout",
+      "matched_ward": "BTM Layout",
+      "ward_number": 175,
+      "gba_zone": "Bommanahalli",
+      "aro_office": "ARO Bommanahalli — BTM Layout",
+      "assembly_constituency": "Jayanagar",
+      "post_offices": ["BTM Layout SO", "1st Stage BTM SO", "Bilekahalli SO"]
+    },
+    "560050": {
+      "locality": "Banashankari",
+      "matched_ward": "Banashankari",
+      "ward_number": 164,
+      "gba_zone": "South",
+      "aro_office": "ARO South — JP Nagar",
+      "assembly_constituency": "Jayanagar",
+      "post_offices": ["Banashankari SO", "BSK 2nd Stage SO", "BSK 3rd Stage SO"]
+    },
+    "560054": {
+      "locality": "Bellandur",
+      "matched_ward": "Bellandur",
+      "ward_number": 185,
+      "gba_zone": "Mahadevapura",
+      "aro_office": "ARO Mahadevapura — Bellandur",
+      "assembly_constituency": "Mahadevapura",
+      "post_offices": ["Bellandur SO", "Sarjapur Road SO"]
+    },
+    "560066": {
+      "locality": "Whitefield",
+      "matched_ward": "Whitefield",
+      "ward_number": 196,
+      "gba_zone": "Mahadevapura",
+      "aro_office": "ARO Mahadevapura — Whitefield",
+      "assembly_constituency": "Mahadevapura",
+      "post_offices": ["Whitefield SO", "ITPL SO", "Hoodi SO", "Varthur SO"]
+    },
+    "560037": {
+      "locality": "Mahadevapura",
+      "matched_ward": "Mahadevapura",
+      "ward_number": 193,
+      "gba_zone": "Mahadevapura",
+      "aro_office": "ARO Mahadevapura — KR Puram",
+      "assembly_constituency": "Mahadevapura",
+      "post_offices": ["Mahadevapura SO", "Krishnarajapuram SO"]
+    },
+    "560068": {
+      "locality": "Electronic City",
+      "matched_ward": "Electronic City",
+      "ward_number": 195,
+      "gba_zone": "Bommanahalli",
+      "aro_office": "ARO Bommanahalli — Electronic City",
+      "assembly_constituency": "Bommanahalli",
+      "post_offices": ["Electronic City SO", "Neeladri Nagar SO", "Phase 2 Electronic City SO"]
+    },
+    "560076": {
+      "locality": "Marathahalli",
+      "matched_ward": "Marathahalli",
+      "ward_number": 192,
+      "gba_zone": "Mahadevapura",
+      "aro_office": "ARO Mahadevapura — Whitefield",
+      "assembly_constituency": "Mahadevapura",
+      "post_offices": ["Marathahalli SO", "Outer Ring Road Marathahalli SO"]
+    },
+    "560094": {
+      "locality": "Yelahanka",
+      "matched_ward": "Yelahanka",
+      "ward_number": 3,
+      "gba_zone": "Yelahanka",
+      "aro_office": "ARO Yelahanka — Jakkur",
+      "assembly_constituency": "Yelahanka",
+      "post_offices": ["Yelahanka SO", "Yelahanka New Town SO", "Attur Layout SO"]
+    }
+  },
+  "ward_aliases": {
+    "shivajinagar": "Shivajinagar",
+    "koramangala": "Koramangala",
+    "whitefield": "Whitefield",
+    "indiranagar": "Indiranagar",
+    "jayanagar": "Jayanagar",
+    "malleshwaram": "Malleshwaram",
+    "malleswaram": "Malleshwaram",
+    "basavanagudi": "Basavanagudi",
+    "rajajinagar": "Rajajinagar",
+    "yelahanka": "Yelahanka",
+    "seshadripuram": "Seshadripuram",
+    "vijayanagar": "Vijayanagar",
+    "vijay nagar": "Vijayanagar",
+    "hsr layout": "HSR Layout",
+    "hsr": "HSR Layout",
+    "banashankari": "Banashankari",
+    "bsk": "Banashankari",
+    "bellandur": "Bellandur",
+    "electronic city": "Electronic City",
+    "electronics city": "Electronic City",
+    "marathahalli": "Marathahalli",
+    "mahadevapura": "Mahadevapura",
+    "mahdevapura": "Mahadevapura",
+    "frazer town": "Frazer Town",
+    "frasier town": "Frazer Town",
+    "rt nagar": "RT Nagar",
+    "rtnagar": "RT Nagar",
+    "r.t. nagar": "RT Nagar",
+    "hebbal": "Hebbal",
+    "nagawara": "Hebbal",
+    "manyata": "Hebbal",
+    "manyata tech park": "Hebbal",
+    "btm layout": "BTM Layout",
+    "btm": "BTM Layout",
+    "btm 2nd stage": "BTM Layout",
+    "dasarahalli": "Dasarahalli",
+    "kengeri": "Kengeri",
+    "pulakeshinagar": "Frazer Town"
+  }
+}
