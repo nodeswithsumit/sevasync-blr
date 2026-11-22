@@ -1,0 +1,91 @@
+{
+  "id": "ekhata",
+  "name": "BBMP/GBA e-Aasthi 2.0 — e-Khata & B-to-A Khata Pre-Audit",
+  "department": "BBMP Revenue / GBA Property Tax",
+  "sakala_sla_days": 15,
+  "version": "2.1.0",
+  "effective_date": "2024-04-01",
+  "governing_act": "BBMP Act 2020, Section 109 & GBA Act 2024, Section 44",
+  "keywords": [
+    "ekhata", "e-khata", "khata", "khatha", "aasthi", "e-aasthi",
+    "b khata", "a khata", "b to a", "b-to-a", "khata transfer",
+    "khata mutation", "property tax", "sas tax", "bbmp tax", "pid number",
+    "site plan", "sale deed", "khata extract", "encumbrance certificate",
+    "epid", "sas id", "property registration", "mutation application",
+    "khata change", "khata correction", "property mismatch", "aasthi transfer",
+    "mahadevapura", "btm layout", "whitefield", "bbmp"
+  ],
+  "required_documents": [
+    "Registered Sale Deed (original + certified copy)",
+    "Previous owner's e-Khata extract (not older than 6 months)",
+    "BBMP SAS Property Tax paid receipts (last 3 years)",
+    "Encumbrance Certificate (EC) from Sub-Registrar Office",
+    "Site/Building Plan sanctioned by BBMP/BDA",
+    "Aadhaar card (applicant)",
+    "Passport-size photograph (self-attested)",
+    "No-dues certificate from BWSSB (for occupied property)"
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "NAME_MISMATCH_INITIAL",
+      "field": "applicant_name",
+      "check": "fuzzy_name_match",
+      "threshold": 0.75,
+      "severity": "critical",
+      "message": "Applicant name on application does not match property owner name on e-Khata / Sale Deed. Initial abbreviation (e.g., 'R. Kumar' vs 'Ramesh Kumar S') or transliteration mismatch will cause automatic rejection.",
+      "remediation": "Submit a Sworn Affidavit (Rs. 100 stamp paper) declaring the name equivalence, attested by a Class-I Gazetted Officer or Notary. Attach Aadhaar and PAN as supporting proof of identity.",
+      "reference": "BBMP Circular No. 234/Revenue/2023 dated 12-Sep-2023"
+    },
+    {
+      "rule_id": "MISSING_SAS_PID",
+      "field": "account_or_pid",
+      "check": "not_empty",
+      "severity": "critical",
+      "message": "SAS Property ID (PID) / e-Aasthi Property ID is missing or blank. This is mandatory for all e-Khata applications under GBA Act 2024.",
+      "remediation": "Obtain the SAS PID from BBMP Citizen Portal (bbmpeaasthi.kar.nic.in). If the property has never been assessed, file a Fresh Assessment Application at the nearest ARO office.",
+      "reference": "GBA Property Tax Manual 2024, Para 3.2.1"
+    },
+    {
+      "rule_id": "BUILT_UP_AREA_DELTA",
+      "field": "built_up_area_sqft",
+      "check": "area_delta_within_5pct",
+      "severity": "critical",
+      "message": "Built-up area on the application differs from the assessed area in BBMP records by more than 5%. Applications with area variance > 5% are auto-rejected by the GBA system.",
+      "remediation": "Commission a licensed BBMP Empanelled Surveyor to re-measure the property. Submit the survey report with a fresh building plan approval if additions were made post-approval.",
+      "reference": "BBMP Building Bye-Laws 2024, Rule 18(c)"
+    },
+    {
+      "rule_id": "WARD_ZONE_MISMATCH",
+      "field": "ward_claimed",
+      "check": "ward_matches_pincode",
+      "severity": "critical",
+      "message": "Ward/Zone claimed on the application does not match the pincode-mapped ward in BBMP records. This causes ARO routing failure and automatic return of the application.",
+      "remediation": "Verify the correct ward by entering your property address on BBMP Citizen Services Portal or by visiting the nearest ARO office.",
+      "reference": "BBMP Revenue Manual, Chapter 7, Section 7.4"
+    },
+    {
+      "rule_id": "SAKALA_SLA_ELAPSED",
+      "field": "application_date",
+      "check": "sla_not_elapsed",
+      "sla_days": 15,
+      "severity": "warning",
+      "message": "Application submission date + 15 Sakala working days has elapsed without disposal. Citizen is entitled to escalate to First Appellate Authority (ARO to RO).",
+      "remediation": "File a Sakala SLA Breach Complaint at sakala.kar.nic.in or the nearest Nada Kacheri. Attach the original Sakala GSC acknowledgement number.",
+      "reference": "Karnataka Sakala Services Act 2011, Section 8 & Oct 2026 Amendment Circular"
+    }
+  ],
+  "bilingual_draft_templates": {
+    "name_mismatch_affidavit": {
+      "document_title": "Name Equivalence Affidavit for e-Khata Application",
+      "english": "AFFIDAVIT\n\nI, [APPLICANT_NAME], son/daughter of [FATHER_NAME], aged [AGE] years, residing at [ADDRESS], PIN [PINCODE], Bengaluru, do hereby solemnly affirm and declare as follows:\n\n1. That I am the applicant for e-Khata transfer/mutation for property bearing SAS PID No. [PID_NUMBER] situated at [PROPERTY_ADDRESS], Ward: [WARD_NAME], BBMP Zone: [ZONE_NAME].\n\n2. That my name as appearing on the Application Form is '[APPLICATION_NAME]' and my name as appearing on the Sale Deed / Previous e-Khata Extract is '[DOCUMENT_NAME]'. Both names refer to the same individual — myself.\n\n3. That the difference in name is due to initial abbreviation / transliteration variation and not due to any fraudulent misrepresentation.\n\n4. I hereby undertake to submit additional identity proof (Aadhaar: XXXX XXXX [AADHAAR_LAST4]) to establish the equivalence of my identity.\n\nSolemnly affirmed at Bengaluru on this [DATE].\n\nDeponent: [APPLICANT_SIGNATURE]\n\nVerified before me:\nNotary / Gazetted Officer Seal & Signature",
+      "kannada": "ಪ್ರಮಾಣಪತ್ರ\n\nನಾನು, [ಅರ್ಜಿದಾರರ_ಹೆಸರು], [ತಂದೆಯ_ಹೆಸರು] ಅವರ ಮಗ/ಮಗಳು, ವಯಸ್ಸು [ವಯಸ್ಸು] ವರ್ಷಗಳು, ನಿವಾಸ ವಿಳಾಸ [ವಿಳಾಸ], ಪಿನ್ [ಪಿನ್_ಕೋಡ್], ಬೆಂಗಳೂರು, ಈ ಮೂಲಕ ಸ್ವಯಂಪ್ರೇರಿತವಾಗಿ ಘೋಷಿಸುತ್ತೇನೆ:\n\n೧. ನಾನು SAS PID ಸಂಖ್ಯೆ [PID_ಸಂಖ್ಯೆ], ವಾರ್ಡ್: [ವಾರ್ಡ್_ಹೆಸರು], BBMP ಜೋನ್: [ಜೋನ್_ಹೆಸರು] ಆಸ್ತಿಗೆ ಇ-ಖಾತಾ ವರ್ಗಾವಣೆಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಿದ್ದೇನೆ.\n\n೨. ಅರ್ಜಿ ಫಾರ್ಮ್‌ನಲ್ಲಿ ನನ್ನ ಹೆಸರು '[ಅರ್ಜಿ_ಹೆಸರು]' ಎಂದಿದ್ದು, ಮಾರಾಟ ಪತ್ರ/ಇ-ಖಾತಾ ಎಕ್ಸ್‌ಟ್ರಾಕ್ಟ್‌ನಲ್ಲಿ '[ದಾಖಲೆ_ಹೆಸರು]' ಎಂದಿದೆ. ಎರಡೂ ಹೆಸರುಗಳು ನನ್ನನ್ನೇ ಸೂಚಿಸುತ್ತವೆ.\n\n೩. ಹೆಸರಿನ ವ್ಯತ್ಯಾಸವು ಆದ್ಯಕ್ಷರ ಸಂಕ್ಷೇಪ / ಲಿಪ್ಯಂತರ ವ್ಯತ್ಯಾಸ ಕಾರಣದಿಂದ ಆಗಿದ್ದು, ಯಾವುದೇ ವಂಚನೆ ಅಲ್ಲ.\n\nಬೆಂಗಳೂರಿನಲ್ಲಿ [ದಿನಾಂಕ] ರಂದು ಪ್ರಮಾಣೀಕರಿಸಲಾಗಿದೆ.\n\nಅರ್ಜಿದಾರರ ಸಹಿ: [ಸಹಿ]\n\nನೋಟರಿ / ಗೆಜೆಟೆಡ್ ಅಧಿಕಾರಿ ಮುದ್ರೆ ಮತ್ತು ಸಹಿ"
+    }
+  },
+  "sandbox_api_setu_endpoint": "https://sandbox.apisetu.gov.in/bbmp/v1/ekhata/applications",
+  "fee_structure": {
+    "khata_transfer_fee": 500,
+    "mutation_fee": 1000,
+    "encumbrance_verification_fee": 200,
+    "currency": "INR"
+  }
+}

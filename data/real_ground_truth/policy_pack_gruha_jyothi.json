@@ -1,0 +1,90 @@
+{
+  "id": "gruha_jyothi",
+  "name": "BESCOM Gruha Jyothi Tenant Registration — Electricity Subsidy Pre-Audit",
+  "department": "BESCOM / Department of Energy, GoK",
+  "sakala_sla_days": 7,
+  "version": "1.3.0",
+  "effective_date": "2023-07-01",
+  "governing_act": "Karnataka Gruha Jyothi Scheme G.O. No. DE 48 EEB 2023 dated 01-Jul-2023",
+  "keywords": [
+    "gruha jyothi", "gruhajyothi", "gruha", "jyothi", "bescom", "electricity",
+    "electricity bill", "power subsidy", "free electricity", "200 units",
+    "rr number", "rr no", "consumer number", "account number", "electricity account",
+    "tenant", "rental", "rent electricity", "domestic connection",
+    "subsidy eligibility", "bescom subsidy", "electricity subsidy",
+    "power bill correction", "meter change", "meter reading dispute",
+    "hsr layout", "koramangala", "bescom bill", "current bill"
+  ],
+  "required_documents": [
+    "Latest BESCOM Electricity Bill (original — not older than 2 billing cycles)",
+    "Aadhaar card of applicant (self-attested)",
+    "Proof of residence / Rental Agreement (if tenant — registered or Notarised)",
+    "Property owner's consent letter with owner's Aadhaar (for tenant applications)",
+    "Ration Card (if availing LPG/Ration subsidy — to verify no double subsidy)",
+    "Mobile number linked to Aadhaar"
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "UNITS_EXCEEDS_200",
+      "field": "monthly_units",
+      "check": "value_lte",
+      "threshold": 200,
+      "severity": "critical",
+      "message": "Monthly electricity consumption exceeds the Gruha Jyothi scheme ceiling of 200 units. Consumers exceeding 200 units in any single billing cycle are automatically ineligible for that month's subsidy.",
+      "remediation": "1. Apply for a meter verification/calibration check at the nearest BESCOM subdivision office. 2. If consumption is genuine, the household is ineligible under Gruha Jyothi for this cycle.",
+      "reference": "Gruha Jyothi Scheme G.O. Clause 4(ii), BESCOM Implementation Circular dated 15-Jul-2023"
+    },
+    {
+      "rule_id": "ALPHANUMERIC_RR_NUMBER",
+      "field": "account_or_pid",
+      "check": "numeric_only",
+      "severity": "critical",
+      "message": "BESCOM RR Number (Account Number) contains alphabetic characters. Gruha Jyothi subsidy linkage to DBT requires a purely numeric 10-digit BESCOM Account Number.",
+      "remediation": "1. Visit the BESCOM Consumer Service Portal (bescom.karnataka.gov.in) and use 'Know Your Consumer Number' to retrieve the 10-digit numeric account number. 2. If the account was recently created, visit the nearest BESCOM Sub-Division office.",
+      "reference": "BESCOM Consumer Services Circular No. BESCOM/CS/2022/107 dated 10-Nov-2022"
+    },
+    {
+      "rule_id": "AADHAAR_NAME_MISMATCH",
+      "field": "applicant_name",
+      "check": "fuzzy_name_match",
+      "threshold": 0.80,
+      "severity": "critical",
+      "message": "Applicant name on the Gruha Jyothi form does not match the name on the BESCOM bill/account. Subsidy disbursement via DBT requires name-on-bill to match the Aadhaar-linked name in the BESCOM consumer database.",
+      "remediation": "1. File a 'Consumer Name Correction' application at BESCOM Sub-Division office (Form BESCOM-NC-02) with Aadhaar and bill. 2. If applicant is a tenant, submit Rental Agreement + owner consent letter.",
+      "reference": "BESCOM Consumer Charter 2023, Article 12"
+    },
+    {
+      "rule_id": "TENANT_OWNERSHIP_DECLARATION",
+      "field": "applicant_name",
+      "check": "tenant_lease_required_if_name_mismatch",
+      "severity": "warning",
+      "message": "Applicant name differs from BESCOM bill account holder name. This indicates the applicant may be a tenant applying on the property owner's connection. A registered Rental/Lease Agreement and Property Owner's Consent are mandatory.",
+      "remediation": "Attach: (1) Registered Rental/Lease Agreement OR Notarised Rental Agreement. (2) Property owner's consent letter signed by owner + owner's Aadhaar copy.",
+      "reference": "Gruha Jyothi Scheme G.O. Clause 6(c) — Tenant Eligibility Criteria"
+    },
+    {
+      "rule_id": "SAKALA_SLA_ELAPSED",
+      "field": "application_date",
+      "check": "sla_not_elapsed",
+      "sla_days": 7,
+      "severity": "warning",
+      "message": "Application submission date + 7 Sakala working days has elapsed without disposal. Gruha Jyothi registration falls under Schedule-I of Karnataka Sakala Services Act 2011.",
+      "remediation": "File a Sakala SLA breach complaint at sakala.kar.nic.in with your GSC acknowledgement number.",
+      "reference": "Karnataka Sakala Services Act 2011 — Schedule I, Serial No. 48 (BESCOM Services)"
+    }
+  ],
+  "bilingual_draft_templates": {
+    "tenant_registration_letter": {
+      "document_title": "Gruha Jyothi Tenant Registration Application Letter",
+      "english": "To,\nThe Sub-Division Engineer / Subdivision Manager,\nBESCOM [SUBDIVISION_NAME] Subdivision,\nBengaluru — [PINCODE]\n\nDate: [DATE]\n\nSub: Application for Gruha Jyothi Tenant Registration for BESCOM Account No. [ACCOUNT_NUMBER]\n\nRespected Sir/Madam,\n\nI, [APPLICANT_NAME], Aadhaar No. XXXX XXXX [AADHAAR_LAST4], am a tenant residing at [PROPERTY_ADDRESS], Ward: [WARD_NAME], Bengaluru — [PINCODE].\n\nThe BESCOM electricity connection at the above address (Account No. [ACCOUNT_NUMBER]) stands in the name of the property owner, Shri/Smt. [OWNER_NAME].\n\nI wish to register myself as a beneficiary under the Gruha Jyothi scheme for the said connection.\n\nEnclosures:\n1. Registered Rental Agreement dated [RENTAL_DATE]\n2. Property Owner's Consent Letter (signed by [OWNER_NAME])\n3. Aadhaar Card (self-attested)\n4. Latest BESCOM Bill\n\nYours faithfully,\n[APPLICANT_NAME]\nMobile: [MOBILE_NUMBER]",
+      "kannada": "ಸೇವೆಯಲ್ಲಿ,\nಸಬ್-ಡಿವಿಜನ್ ಎಂಜಿನಿಯರ್,\nಬೆಸ್ಕಾಂ [ಸಬ್ಡಿವಿಜನ್_ಹೆಸರು],\nಬೆಂಗಳೂರು — [ಪಿನ್_ಕೋಡ್]\n\nದಿನಾಂಕ: [ದಿನಾಂಕ]\n\nವಿಷಯ: ಬೆಸ್ಕಾಂ ಖಾತೆ ಸಂಖ್ಯೆ [ಖಾತೆ_ಸಂಖ್ಯೆ]ಗೆ ಗೃಹ ಜ್ಯೋತಿ ಬಾಡಿಗೆದಾರ ನೋಂದಣಿ ಅರ್ಜಿ\n\nಮಾನ್ಯರೇ,\n\nನಾನು, [ಅರ್ಜಿದಾರರ_ಹೆಸರು], ಆಧಾರ್ ಸಂಖ್ಯೆ XXXX XXXX [ಆಧಾರ್_ಕೊನೆಯ4], [ಆಸ್ತಿ_ವಿಳಾಸ], ವಾರ್ಡ್: [ವಾರ್ಡ್_ಹೆಸರು], ಬೆಂಗಳೂರು — [ಪಿನ್_ಕೋಡ್] ನಲ್ಲಿ ಬಾಡಿಗೆ ನಿವಾಸಿಯಾಗಿದ್ದೇನೆ.\n\nಮೇಲ್ಕಂಡ ವಿಳಾಸದ ಬೆಸ್ಕಾಂ ವಿದ್ಯುತ್ ಸಂಪರ್ಕ ಆಸ್ತಿ ಮಾಲೀಕರಾದ ಶ್ರೀ/ಶ್ರೀಮತಿ [ಮಾಲೀಕರ_ಹೆಸರು] ಹೆಸರಿನಲ್ಲಿದೆ.\n\nಗೃಹ ಜ್ಯೋತಿ ಯೋಜನೆ ಅಡಿ ನನ್ನನ್ನು ಫಲಾನುಭವಿಯಾಗಿ ನೋಂದಾಯಿಸಲು ವಿನಂತಿಸುತ್ತೇನೆ.\n\nಲಗತ್ತಿಸಿದ ದಾಖಲೆಗಳು:\n೧. ನೋಂದಾಯಿತ ಬಾಡಿಗೆ ಒಪ್ಪಂದ\n೨. ಆಸ್ತಿ ಮಾಲೀಕರ ಒಪ್ಪಿಗೆ ಪತ್ರ\n೩. ಆಧಾರ್ ಕಾರ್ಡ್\n\nವಿಧೇಯ,\n[ಅರ್ಜಿದಾರರ_ಹೆಸರು]"
+    }
+  },
+  "sandbox_api_setu_endpoint": "https://sandbox.apisetu.gov.in/bescom/v1/gruha-jyothi/register",
+  "fee_structure": {
+    "registration_fee": 0,
+    "name_correction_fee": 100,
+    "meter_verification_fee": 250,
+    "currency": "INR"
+  }
+}
